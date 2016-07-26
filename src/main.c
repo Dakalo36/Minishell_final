@@ -43,17 +43,20 @@ void	begin_shell(t_env *e)
 {
 	ft_putstr("$> ");
 	get_next_line(0, &e->line);
-	if (strcmp(e->line, "exit") != 0)
+	if (ft_strcmp(e->line, "exit") != 0)
 	{
-		process_line(e);
-		free(e->line);
-		e->line = NULL;
-		if (e->args)
+		if (ft_strcmp(e->line, "") != 0)
 		{
-			free_tab(e->args);
-			free(e->args);
+			process_line(e);
+			free(e->line);
+			e->line = NULL;
+			if (e->args)
+			{
+				free_tab(e->args);
+				free(e->args);
+			}
+			e->args = NULL;
 		}
-		e->args = NULL;
 		begin_shell(e);
 	}
 	free(e->line);

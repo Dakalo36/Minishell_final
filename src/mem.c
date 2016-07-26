@@ -29,6 +29,8 @@ void	run_exec(char *path, t_env *e)
 	path = NULL;
 }
 
+char	**tab_add(char **tab, char *str)
+
 void	free_tab(char **tab)
 {
 	int	y;

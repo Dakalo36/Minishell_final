@@ -36,7 +36,10 @@ void	ft_setenv(t_env *e)
 	i = 1;
 	while (e->args[i])
 	{
-		
+		if (ft_strchr(args[i], '=') != NULL)
+		{
+			
+		}	
 	}
 }
 
