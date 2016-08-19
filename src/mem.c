@@ -6,7 +6,7 @@
 /*   By: kioulian <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 13:48:55 by kioulian          #+#    #+#             */
-/*   Updated: 2016/08/17 18:27:52 by kioulian         ###   ########.fr       */
+/*   Updated: 2016/08/19 18:54:18 by kioulian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	tab_add(char ***environ, char *str)
 	char	**temp;
 	int		y;
 	int		len;
+	char	**fre;
 
 	y = 0;
 	len = 0;
@@ -46,8 +47,12 @@ void	tab_add(char ***environ, char *str)
 		temp[y] = ft_strdup((*environ)[y]);
 		y++;
 	}
+	fre = *environ;
 	temp[len] = ft_strdup(str);
 	*environ = temp;
+	free_tab(fre);
+	free(fre);
+	fre = NULL;
 }
 
 void	free_tab(char **tab)
@@ -61,4 +66,6 @@ void	free_tab(char **tab)
 		tab[y] = NULL;
 		y++;
 	}
+	free(tab);
+	tab = NULL;
 }

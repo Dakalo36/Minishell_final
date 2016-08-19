@@ -6,12 +6,30 @@
 /*   By: kioulian <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/23 11:19:43 by kioulian          #+#    #+#             */
-/*   Updated: 2016/08/17 18:11:29 by kioulian         ###   ########.fr       */
+/*   Updated: 2016/08/19 18:54:12 by kioulian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "environ.h"
+
+void	get_environ(t_env *e)
+{
+	extern char	**environ;
+	int			y;
+
+	y = 0;
+	while (environ[y])
+		y++;
+	e->environ = (char **)malloc(sizeof(char*) * (y + 1));
+	y = 0;
+	while (environ[y])
+	{
+		e->environ[y] = ft_strdup(environ[y]);
+		y++;
+	}
+	e->environ[y] = 0;
+}
 
 void	ft_env(t_env *e)
 {
@@ -80,8 +98,6 @@ int		search_paths(t_env *e)
 		env.y++;
 	}
 	free_tab(env.paths);
-	free(env.paths);
-	env.paths = NULL;
 	return (env.y);
 }
 
