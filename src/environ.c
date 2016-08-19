@@ -6,7 +6,7 @@
 /*   By: kioulian <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/23 11:19:43 by kioulian          #+#    #+#             */
-/*   Updated: 2016/07/24 17:28:46 by kioulian         ###   ########.fr       */
+/*   Updated: 2016/08/17 18:11:29 by kioulian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,30 @@ void	ft_env(t_env *e)
 void	ft_setenv(t_env *e)
 {
 	int		i;
-	char	**tab;
 	int		y;
 	int		check;
 
 	i = 1;
+	y = 0;
 	while (e->args[i])
 	{
-		if (ft_strchr(args[i], '=') != NULL)
+		check = 0;
+		if (ft_strchr(e->args[i], '=') != NULL)
 		{
-			
-		}	
+			while (e->environ[y] != 0)
+			{
+				if ((strnstr(e->environ[y], e->args[i],
+							ft_indexof(e->args[i], '='))) != NULL)
+				{
+					check = 1;
+					e->environ[y] = ft_strdup(e->args[i]);
+				}
+				y++;
+			}
+			if (!check)
+				tab_add(&e->environ, e->args[i]);
+		}
+		i++;
 	}
 }
 

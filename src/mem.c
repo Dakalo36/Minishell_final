@@ -6,7 +6,7 @@
 /*   By: kioulian <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/24 13:48:55 by kioulian          #+#    #+#             */
-/*   Updated: 2016/07/24 15:49:52 by kioulian         ###   ########.fr       */
+/*   Updated: 2016/08/17 18:27:52 by kioulian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,26 @@ void	run_exec(char *path, t_env *e)
 	path = NULL;
 }
 
-char	**tab_add(char **tab, char *str)
+void	tab_add(char ***environ, char *str)
+{
+	char	**temp;
+	int		y;
+	int		len;
+
+	y = 0;
+	len = 0;
+	while ((*environ)[len] != 0)
+		len++;
+	temp = (char **)malloc(sizeof(char*) * (len + 2));
+	temp[len + 1] = 0;
+	while (y < len)
+	{
+		temp[y] = ft_strdup((*environ)[y]);
+		y++;
+	}
+	temp[len] = ft_strdup(str);
+	*environ = temp;
+}
 
 void	free_tab(char **tab)
 {

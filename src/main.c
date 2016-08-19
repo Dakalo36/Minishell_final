@@ -6,7 +6,7 @@
 /*   By: kioulian <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/20 18:37:09 by kioulian          #+#    #+#             */
-/*   Updated: 2016/07/24 17:28:43 by kioulian         ###   ########.fr       */
+/*   Updated: 2016/08/17 18:27:55 by kioulian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		search_commands(t_env *e)
 	else if (ft_strcmp(e->args[0], "echo") == 0)
 		ft_echo(e);
 	else if (ft_strcmp(e->args[0], "setenv") == 0)
-		;
+		ft_setenv(e);
 	else if (ft_strcmp(e->args[0], "unsetenv") == 0)
 		;
 	else if (ft_strcmp(e->args[0], "env") == 0)
@@ -34,9 +34,11 @@ int		search_commands(t_env *e)
 
 void	process_line(t_env *e)
 {
-	e->args = ft_strsplit(e->line, ' ');
-	if (search_commands(e) < 0)
-		;
+ 	e->args = ft_strsplit(e->line, ' ');
+	if (search_commands(e) > 0)
+	{
+
+	}
 }
 
 void	begin_shell(t_env *e)
