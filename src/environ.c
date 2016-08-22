@@ -6,12 +6,11 @@
 /*   By: kioulian <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/23 11:19:43 by kioulian          #+#    #+#             */
-/*   Updated: 2016/08/19 18:54:12 by kioulian         ###   ########.fr       */
+/*   Updated: 2016/08/21 18:32:16 by kioulian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "environ.h"
 
 void	get_environ(t_env *e)
 {
@@ -31,6 +30,29 @@ void	get_environ(t_env *e)
 	e->environ[y] = 0;
 }
 
+int		ft_unsetenv(t_env *e)
+{
+	int	check;
+	int	i;
+	int	y;
+
+	i = 0;
+	check = 0;
+	while (e->args[i])
+	{
+		y = 0;
+		while (e->environ[y])
+		{
+			if (ft_strncmp(e->environ[y], e->args[i],
+						ft_indexof(e->environ[y], '=')) == 0)
+				ft_del_env(&check, e->environ, y);
+			y++;
+		}
+		i++;
+	}
+	return (check);
+}
+
 void	ft_env(t_env *e)
 {
 	int	y;
@@ -46,9 +68,9 @@ void	ft_env(t_env *e)
 
 void	ft_setenv(t_env *e)
 {
-	int		i;
-	int		y;
-	int		check;
+	int	i;
+	int	y;
+	int	check;
 
 	i = 1;
 	y = 0;
@@ -59,46 +81,17 @@ void	ft_setenv(t_env *e)
 		{
 			while (e->environ[y] != 0)
 			{
-				if ((strnstr(e->environ[y], e->args[i],
-							ft_indexof(e->args[i], '='))) != NULL)
-				{
-					check = 1;
-					e->environ[y] = ft_strdup(e->args[i]);
-				}
+				if ((ft_strncmp(e->environ[y], e->args[i],
+							ft_indexof(e->args[i], '='))) == 0)
+					e->environ[y] = ft_replace_env(&check, e->args[i],
+							e->environ[y]);
 				y++;
 			}
 			if (!check)
-				tab_add(&e->environ, e->args[i]);
+				e->environ = tab_add(e->environ, e->args[i]);
 		}
 		i++;
 	}
-}
-
-int		search_paths(t_env *e)
-{
-	t_search	env;
-
-	env.paths = ft_strsplit(ft_getenv("PATH", e), ':');
-	env.y = 0;
-	while (env.y > -1 && env.paths[env.y] != 0)
-	{
-		env.dirp = opendir(env.paths[env.y]);
-		while ((env.entry = readdir(env.dirp)) != NULL)
-		{
-			if (strcmp(env.entry->d_name, e->args[0]) == 0)
-			{
-				env.str = ft_strjoin(env.paths[env.y], "/");
-				run_exec(ft_strjoin(env.str, env.entry->d_name), e);
-				free(env.str);
-				env.str = NULL;
-				env.y = -2;
-			}
-		}
-		closedir(env.dirp);
-		env.y++;
-	}
-	free_tab(env.paths);
-	return (env.y);
 }
 
 char	*ft_getenv(char *str, t_env *e)

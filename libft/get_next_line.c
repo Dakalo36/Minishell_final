@@ -21,8 +21,6 @@ static int	check_read(char **stock, char *str, char **line, int index)
 	{
 		*tmp = '\0';
 		*line = ft_strjoin(*stock, str);
-		free(*stock);
-		*stock = NULL;
 		tmp = NULL;
 		free(str);
 		str = NULL;
@@ -33,10 +31,10 @@ static int	check_read(char **stock, char *str, char **line, int index)
 
 int			get_next_line(const int fd, char **line)
 {
-	static char	*stock;
-	char		*temp;
-	char		*str;
-	int			index;
+	char	*stock;
+	char	*temp;
+	char	*str;
+	int		index;
 
 	stock = (char *)malloc(sizeof(char) * (BUFF_SIZE + 1));
 	str = (char *)malloc(sizeof(char) * (BUFF_SIZE + 1));

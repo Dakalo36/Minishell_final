@@ -6,7 +6,7 @@
 /*   By: kioulian <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/20 18:37:09 by kioulian          #+#    #+#             */
-/*   Updated: 2016/08/19 18:54:15 by kioulian         ###   ########.fr       */
+/*   Updated: 2016/08/21 18:26:51 by kioulian         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ int		search_commands(t_env *e)
 	else if (ft_strcmp(e->args[0], "setenv") == 0)
 		ft_setenv(e);
 	else if (ft_strcmp(e->args[0], "unsetenv") == 0)
-		;
+	{
+		if (!ft_unsetenv(e))
+			ft_putstr("Variable not found\n");
+	}
 	else if (ft_strcmp(e->args[0], "env") == 0)
 		ft_env(e);
 	else
@@ -36,7 +39,7 @@ void	process_line(t_env *e)
 {
 	e->args = ft_strsplit(e->line, ' ');
 	if (search_commands(e) > 0)
-		;
+		run_command(e);
 }
 
 void	begin_shell(t_env *e)
